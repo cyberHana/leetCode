@@ -1,0 +1,19 @@
+class Solution {
+public:
+    
+    ListNode* rev(ListNode* prev, ListNode* curr)
+    {        
+        //Base: No curr present.
+        if(!curr)
+            return prev;
+        
+        ListNode* next  = curr->next;       //Store the next
+        curr->next = prev;                  //point curr to preveious
+        return rev(curr, next);             //Recurse      
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+			return rev(NULL, head);  //prev as 'NULL'
+    }    
+
+};
