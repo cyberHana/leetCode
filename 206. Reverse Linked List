@@ -4,10 +4,12 @@
 
 * Input: 1->2->3->4->5->NULL
 * Output: 5->4->3->2->1->NULL
-
 * Follow up:
-
 * A linked list can be reversed either iteratively or recursively.
+
+**Complexity Analysis
+**    Time complexity : O(m). m represents the minimum number of nodes from the two given trees.
+**    Space complexity : O(m). The depth of the recursion tree can go upto m in the case of a skewed tree. In average case, depth will be O(logm).
 */
 
 struct ListNode {
