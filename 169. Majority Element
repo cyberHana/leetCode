@@ -1,0 +1,46 @@
+/**
+** https://leetcode.com/problems/majority-element/
+
+* Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+
+* You may assume that the array is non-empty and the majority element always exist in the array.
+
+* Example 2:
+
+* Input: [2,2,1,1,1,2,2]
+* Output: 2
+**/
+
+/* Solution1: Hash table
+* Time complexity : O(n)
+* Space complexity: O(n)
+*/ 
+class Solution1 {
+public:
+    int majorityElement(vector<int>& nums) {
+        int idx = nums.size()/2;
+        map<int, int> hashMap;
+        int res = 0;
+        for(int i=0; i<nums.size(); i++){
+            hashMap[nums[i]]++;
+            if(hashMap[nums[i]] > idx){
+                res = nums[i];
+                break;
+            }
+        }
+        return res;
+    }
+};
+
+/* Solution2: Sort nums
+* Time complexity : O(nlog(n))
+* Space complexity: O(1)
+*/ 
+
+class Solution2 {
+public:
+    int majorityElement(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        return nums[nums.size()/2];
+    }
+};
