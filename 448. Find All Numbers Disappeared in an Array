@@ -1,0 +1,66 @@
+/** https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/
+
+**/
+
+/* Solution1: an index to mark what value should be shown in nums, if not as expected, then put missing nums in res
+Time Complexity O(n^2)
+Space Complexity O(n)
+*/
+class Solution1 {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int idx=1;
+        vector<int> res;
+        
+        sort(nums.begin(), nums.end());
+
+        for(int i=0; i<nums.size(); i++){
+            if(nums[i] == idx){
+                idx++;
+            }else if (nums[i] < idx){
+                continue;
+            }
+            else{
+                int j= idx;
+                for(j; j<nums[i]; j++){
+                    res.push_back(j);
+                }
+                idx = nums[i]+1;
+            }
+        }
+        if(idx!= nums.size()+1){
+            for(int i=idx; i<nums.size()+1; i++){
+                res.push_back(i);
+            }
+        }
+        return res;
+    }
+};
+
+/* Solution2: ref: https://leetcode.com/problems/find-all-numbers-disappeared-in-an-array/discuss/92956/Java-accepted-simple-solution
+Iterate through the input array and mark elements as negative using nums[nums[i] -1] = -nums[nums[i]-1]. 
+In this way all the numbers that we have seen will be marked as negative. 
+In the second iteration, if a value is not marked as negative, it implies we have never seen that index before, so just add it to the return list.
+
+Time Complexity O(n)
+Space Complexity O(n)
+*/
+class Solution2 {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        vector<int> missingNums;
+        for(int i=0; i<nums.size(); i++){
+            int pos = abs(nums[i])-1;
+            if(nums[pos] >0){
+                nums[pos] = -nums[pos];
+            }
+        }
+        
+        for(int i=0; i<nums.size(); i++){
+            if(nums[i] > 0){
+                missingNums.push_back(i+1);
+            }
+        }
+        return missingNums;
+    }
+};
