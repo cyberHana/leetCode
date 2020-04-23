@@ -1,0 +1,60 @@
+/**
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+    Open brackets must be closed by the same type of brackets.
+    Open brackets must be closed in the correct order.
+
+Note that an empty string is also considered valid.
+
+Example 1:
+
+Input: "()"
+Output: true
+**/ 
+
+class Solution {
+public:
+    bool isValid(string s) {
+        if(s.length()%2 != 0) return false;
+        vector<char> c;
+        for(int i=0; i<s.length(); i++){
+            if(s[i] == '(' || s[i]=='{' || s[i]=='['){
+                c.push_back(s[i]);
+                continue;
+            }
+            if(c.empty()) return false; 
+            if(s[i] ==')' && c.back()!='(' ) return false;
+            if(s[i] =='}' && c.back()!='{' ) return false;
+            if(s[i] ==']' && c.back()!='[' ) return false;
+            c.pop_back();
+        }
+        if(!c.empty()) return false;
+        return true;
+    }
+};
+
+
+/** cleaner code
+class Solution {
+public:
+    bool isValid(string s) {
+        if(s.length()%2 != 0) return false;
+        vector<char> c;
+        unordered_map<char,char> _m = {{')','('}, {'}','{'}, {']','['}};
+                                        
+        for(int i=0; i<s.length(); i++){
+            if(s[i] == '(' || s[i]=='{' || s[i]=='['){
+                c.push_back(s[i]);
+                continue;
+            }
+            if(c.empty()) return false; 
+            if(c.back() != _m[s[i]]) return false;
+            c.pop_back();
+        }
+        if(!c.empty()) return false;
+        return true;
+    }
+};
+**/
