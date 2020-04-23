@@ -1,0 +1,36 @@
+/** Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+
+Example 1:
+
+Input: 2
+Output: [0,1,1]
+It is very easy to come up with a solution with run time O(n*sizeof(integer)). But can you do it in linear time O(n) 
+/possibly in a single pass?
+Space complexity should be O(n).
+**/
+
+/**
+** Time complexity: O(n)
+** Space Complexity:O(n)
+**/
+
+
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        vector<int> dp(num+1, 0);
+        int x=1, ptr = 1;   
+        for(int i=1; i<=num; i++){
+            if(i==x){
+                dp[i] = 1;
+                x *= 2;
+                ptr = 1;
+            }
+            else{
+                dp[i] = dp[ptr] + 1;
+                ptr++;
+            }
+        }
+        return dp;
+    }
+};
