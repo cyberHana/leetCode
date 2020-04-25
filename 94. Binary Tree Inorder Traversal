@@ -1,0 +1,59 @@
+
+
+
+
+/**Solution1: Recursive Approach or Stack Approach
+** Time complexity:O(n)
+** Space complexity: O(n) worst case, O(logn) avg case
+**/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution1 {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        helper(root, res);
+        return res;
+    }
+    
+    void helper(TreeNode* root, vector<int>& res){
+        if(!root) return;
+        
+        helper(root->left, res);
+        res.push_back(root->val);
+        helper(root->right, res);
+    }
+};
+
+/**Solution1-1: Stack (Iterative) Approach
+** Time complexity:O(n)
+** Space complexity: O(n) worst case, O(logn) avg case
+**/
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        vector<TreeNode*> stack;
+        TreeNode* cur = root;
+        while(cur!=NULL || !stack.empty()){
+            while(cur != NULL){
+                stack.push_back(cur);
+                cur = cur->left;
+            }
+            cur = stack.back();
+            res.push_back(cur->val);
+            stack.pop_back();
+            cur = cur->right;
+        }
+        return res;
+    }
+};
