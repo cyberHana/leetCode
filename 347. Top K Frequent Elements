@@ -1,0 +1,72 @@
+/**
+Given a non-empty array of integers, return the k most frequent elements.
+
+Example 1:
+
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+
+Example 2:
+
+Input: nums = [1], k = 1
+Output: [1]
+**/
+
+/** unordered_map + priority queue
+** Time complexity: O(nlogk)
+** Space complexity: O(k)
+**/
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> m; 
+        priority_queue<pair<int, int>> q;
+        
+        for(int n: nums){
+            m[n]++;
+        }
+        for(int n:nums){
+            if(m[n]>0){
+                q.push(make_pair(m[n],n));
+            }
+            m[n] =0;
+        }
+        
+        vector<int> ans;
+        for(int i=0;i<k;i++)
+        {
+            ans.push_back(q.top().second);
+            q.pop();
+        }
+        return ans;
+    }
+};
+
+/** Solution2:bucket_sorting
+** Time complexity: O(n)
+** Space complexity: O(n)
+**/
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> counts;
+        int max_freq = 1;
+        for(auto n:nums){
+            max_freq = max(max_freq, ++counts[n]);
+        }
+        
+        unordered_map<int, vector<int>> buckets;
+        for(auto c:counts){
+            buckets[c.second].push_back(c.first);
+        }
+        
+        vector<int> ans;
+        for(int i= max_freq; i>=1; i--){
+            auto it = buckets.find(i);
+            if(it == buckets.end()) continue;
+            ans.insert(ans.end(), it->second.begin(), it->second.end());
+            if(ans.size() ==k) return ans;
+        }
+        return ans;
+    }
+};
