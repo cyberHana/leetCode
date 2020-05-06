@@ -1,0 +1,72 @@
+/** 
+Given an array of strings, group anagrams together.
+
+Example:
+
+Input: ["eat", "tea", "tan", "ate", "nat", "bat"],
+Output:
+[
+  ["ate","eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+
+Note:
+
+    All inputs will be in lowercase.
+    The order of your output does not matter.
+**/
+
+/** Solution1: Categorize by Sorted String
+Time Complexity: O(NKlog⁡K)
+Space Complexity: O(NK)
+**/
+class Solution1 {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        if(strs.size() == 0) return {}; 
+        map<string, vector<string>> m;
+        for(string s: strs){
+            string tmpS = s;
+            sort(tmpS.begin(), tmpS.end());
+            m[tmpS].push_back(s);
+        }
+        
+        vector<vector<string>> result;
+        for(auto itr: m){
+            result.push_back(itr.second);
+        }
+        return result;
+    }
+};
+
+
+/** Solution2: Categorize by Count alphabet
+Time Complexity: O(NK)
+Space Complexity: O(NK)
+**/
+class Solution2 {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+       
+        unordered_map<string, vector<string>> m;
+        for(int i=0; i < strs.size(); i++){
+            string mapStr(26, 0);
+            for(auto s: strs[i])
+                mapStr[s-'a']++;
+            
+            if(m.count(mapStr) ==0){
+                vector<string> tmp;
+                tmp.push_back(strs[i]);
+                m[mapStr] = tmp;
+            }
+            else
+                m[mapStr].push_back(strs[i]);
+        }
+        vector<vector<string>> result;
+        for(auto i:m){
+            result.push_back(i.second);
+        }
+        return result;
+    }
+};
