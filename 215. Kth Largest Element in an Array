@@ -37,7 +37,11 @@ public:
 Time complexity: O(n)
 Space complexity
 **/
- int findKthLargest(vector<int>& nums, int k) {
+
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
         if( nums.size() ==0 || k<=0) return -1;
         int left = 0, right = nums.size()-1;
         
@@ -55,9 +59,13 @@ Space complexity
         while( l <= r ){
             if(nums[l] < pivot && nums[r] > pivot)
                 swap(nums[l++], nums[r--]);
-            if(nums[l] >= pivot) l++;
-            if(nums[r] <= pivot) r--;
+            
+            while (l <= r && nums[l] >= pivot) l++; 
+            while (l <= r && nums[r] <= pivot) r--;
         }
         swap(nums[left], nums[r]);
         return r;
     }
+  
+};
+
