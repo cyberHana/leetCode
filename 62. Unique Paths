@@ -18,22 +18,26 @@ Constraints:
 Time complexity: O(mn)
 Space complexity: O(mn)
 **/
+
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        vector<vector<int>> m_ = vector<vector<int>>(m, vector<int>(n,0));
-        for(int i=0; i<m; i++)
-            m_[i][0] = 1;
-        for(int j=0; j<n; j++)
-            m_[0][j] = 1;
+        vector<vector<int>> map_ = vector<vector<int>>(m+1, vector<int>(n+1,0));
+        for(int i=1; i<=m; i++)
+            map_[i][1] = 1;
         
-        for(int i=1; i<m; i++){
-            for(int j=1; j<n; j++)
-                m_[i][j] = m_[i-1][j] + m_[i][j-1];
+        for(int j=1; j<=n; j++)
+            map_[1][j] = 1;
+        
+        for(int i=1; i<=m; i++){
+            for(int j=1; j<=n; j++){
+                if(i==1 || j==1) continue;
+                map_[i][j] = map_[i-1][j] + map_[i][j-1];
+            }
         }
-        
-        return m_[m-1][n-1];
+        return map_[m][n];
     }
+    
 };
 
 /** Solution2: recursion + memorize
