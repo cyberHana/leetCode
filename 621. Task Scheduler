@@ -34,4 +34,37 @@ public:
 };
 
 
- 
+ /** Solution2: Priority queue
+ Time complexity: O(n)
+Space complexity: O(1)
+ **/
+ class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int res = 0, cycle = n + 1;
+        
+        unordered_map<char, int> count_map;
+        priority_queue<int> pq;
+        for (char task : tasks) ++count_map[task];
+        for (auto cnt : count_map) pq.push(cnt.second);
+        
+        while (!pq.empty()) {
+            int time = 0;
+            vector<int> tmp;
+            for (int i = 0; i < cycle; ++i) {
+                if (!pq.empty()) {
+                    tmp.push_back(pq.top()); pq.pop();
+                    ++time;
+                }
+            }
+            for (int cnt : tmp) {
+                if (--cnt > 0) pq.push(cnt);
+            }
+            res += pq.empty() ? time : cycle;
+        }
+        return res;
+
+    }
+};
+
+
